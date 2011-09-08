@@ -1,9 +1,12 @@
 package sail.schihub.agents;
 
+import hirondelle.date4j.DateTime;
+
 import java.net.UnknownHostException;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Set;
+import java.util.TimeZone;
 
 import org.encorelab.sail.Event;
 import org.encorelab.sail.EventResponder;
@@ -124,9 +127,8 @@ public class GopherAgent extends Agent {
 		        
 		        doc.put("url", url);
 		        doc.put("origin", origin);
-		        Date date = new Date();
-		        doc.put("timestamp", new Timestamp(date.getTime()));
-		        
+		        DateTime now = DateTime.now(TimeZone.getDefault());
+		        doc.put("timestamp",now.toString());
 		        coll.insert(doc);
 		        
 			}
