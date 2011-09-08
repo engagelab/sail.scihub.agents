@@ -3,12 +3,45 @@
   <groupId>sail.scihub.agents</groupId>
   <artifactId>sail.scihub.agents</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  <repositories>
+  <repository>
+  <id>mandubian-mvn</id>
+  <url>http://mandubian-mvn.googlecode.com/svn/trunk/mandubian-mvn/repository</url>
+</repository>
+  </repositories>
+  
+  <build>
+    <plugins>
+        <plugin>
+            <artifactId>maven-assembly-plugin</artifactId>
+            <configuration>
+                <archive>
+                    <manifest>
+                        <mainClass>sail.schihub.agents.GopherAgent</mainClass>
+                    </manifest>
+                </archive>
+                <descriptorRefs>
+                    <descriptorRef>jar-with-dependencies</descriptorRef>
+                </descriptorRefs>
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
   <dependencies>
+  
     <dependency>
       <groupId>com.google.code.gson</groupId>
       <artifactId>gson</artifactId>
       <version>1.7.1</version>
     </dependency>
+   
+    <dependency>
+      <groupId>com.google.gdata</groupId>
+      <artifactId>gdata-youtube-2.0</artifactId>
+      <version>1.41.5</version>
+    </dependency>
+
+ 	
     <dependency>
       <groupId>jivesoftware</groupId>
       <artifactId>smack</artifactId>
@@ -39,6 +72,11 @@
     	<groupId>org.mongodb</groupId>
     	<artifactId>mongo-java-driver</artifactId>
     	<version>2.6.5</version>
+    </dependency>
+    <dependency>
+    	<groupId>javax.mail</groupId>
+    	<artifactId>mail</artifactId>
+    	<version>1.4.4</version>
     </dependency>
   </dependencies>
 </project>

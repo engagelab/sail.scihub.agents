@@ -21,6 +21,9 @@ import com.mongodb.MongoException;
 
 public class GopherAgent extends Agent {
 	
+	private Mongo mongoDBConnection;
+	private DB mongoDB;
+	
 	public static void main(String[] args) {
 		Thread thread = new Thread() {
 			@Override
@@ -73,9 +76,12 @@ public class GopherAgent extends Agent {
 		}
 	}
 
-	private Mongo mongoDBConnection;
-	private DB mongoDB;
 	
+	
+	
+	/**
+	 * Setups of the DB connection
+	 */
 	public void setupDBConnection() {
 		
 		try {
@@ -94,13 +100,13 @@ public class GopherAgent extends Agent {
 	public void printTest() {
 		System.out.println("test print....");
 		Set<String> colls = mongoDB.getCollectionNames();
-
 		for (String s : colls) {
 		    System.out.println(s);
 		}
 	}
 	
 	public void setupEventResponders() {
+		
 		/*
 		 * When the agent sees an event like:
 		 * 
@@ -124,13 +130,11 @@ public class GopherAgent extends Agent {
 				DBCollection coll = mongoDB.getCollection("videos");
 						
 		        BasicDBObject doc = new BasicDBObject();
-		        
 		        doc.put("url", url);
 		        doc.put("origin", origin);
 		        DateTime now = DateTime.now(TimeZone.getDefault());
 		        doc.put("timestamp",now.toString());
 		        coll.insert(doc);
-		        
 			}
 		});
 
