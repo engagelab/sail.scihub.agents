@@ -111,13 +111,13 @@ public class GopherAgent extends Agent {
 		 * When the agent sees an event like:
 		 * 
 		 * 
-		 * { eventType: 'new_video_submitted', payload: { url: 'http://youtube.com/lakjsdflkjsdfklj'}, origin: 'bob' }
+		 * { eventType: 'video_ready', payload: { url: 'http://youtube.com/lakjsdflkjsdfklj'}, origin: 'bob' }
 		 * 
 		 * it will respond by adding a record to mongo
 		 * 
 		 * { url: 'http://youtube.com/lakjsdflkjsdfklj', author: 'bob', timestamp: '2011-09...' }
 		 */
-		listener.addResponder("new_video_submitted", new EventResponder() {
+		listener.addResponder("video_ready", new EventResponder() {
 			public void respond(Event ev) {
 				String fromJid = ev.getFrom();
 				String fromUsername = fromJid.split("/")[1];
