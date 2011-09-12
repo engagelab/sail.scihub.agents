@@ -229,7 +229,7 @@ public class GoogleClientSecretAgent extends Agent {
 				String origin = ev.getOrigin();
 				
 				String id = (String) ev.getPayloadAsMap().get("id");
-				
+				String token = (String) ev.getPayloadAsMap().get("token");
 				try {
 					System.out.println("starting youtube service...");
 					YouTubeService service = new YouTubeService("GoogleClient", "AI39si5IM0aBn_mE7Wgj3brs9Zf-ttNoW1l2fse2xx71oYYOtzNxpK0NDrc7bZpjz8jTdh90HMRaGFwHemSeDd1tDZccwDEthA");
@@ -253,6 +253,7 @@ public class GoogleClientSecretAgent extends Agent {
 					 Map<String,Object> map = new HashMap<String,Object>();
 					
 					 map.put("url", "http://youtube.com/"+id);
+					 map.put("token", token);
 					 
 					 Event responseEvent = new Event("video_ready", map, "googleclientsecretagent");
 					 responseEvent.toJson();
