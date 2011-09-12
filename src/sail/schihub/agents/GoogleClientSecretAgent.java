@@ -98,177 +98,163 @@ public class GoogleClientSecretAgent extends Agent {
 	}
 
 	public static void printVideoFeed(VideoFeed videoFeed, boolean detailed) {
-		  for(VideoEntry videoEntry : videoFeed.getEntries() ) {
-		    printVideoEntry(videoEntry, detailed);
-		  }
+		for (VideoEntry videoEntry : videoFeed.getEntries()) {
+			printVideoEntry(videoEntry, detailed);
 		}
-	
-	public static boolean printVideoEntry(VideoEntry videoEntry, boolean detailed) {
-		  System.out.println("Title: " + videoEntry.getTitle().getPlainText());
+	}
 
-		  if(videoEntry.isDraft()) {
-		    System.out.println("Video is not live");
-		    YtPublicationState pubState = videoEntry.getPublicationState();
-		    if(pubState.getState() == YtPublicationState.State.PROCESSING) {
-		      System.out.println("Video is still being processed.");
-		      return false;
-		    }
-		    else if(pubState.getState() == YtPublicationState.State.REJECTED) {
-		      System.out.print("Video has been rejected because: ");
-		      System.out.println(pubState.getDescription());
-		      System.out.print("For help visit: ");
-		      System.out.println(pubState.getHelpUrl());
-		    }
-		    else if(pubState.getState() == YtPublicationState.State.FAILED) {
-		      System.out.print("Video failed uploading because: ");
-		      System.out.println(pubState.getDescription());
-		      System.out.print("For help visit: ");
-		      System.out.println(pubState.getHelpUrl());
-		    }
-		  }
-		  
-		 
+	public static boolean printVideoEntry(VideoEntry videoEntry,
+			boolean detailed) {
+		System.out.println("Title: " + videoEntry.getTitle().getPlainText());
 
-		  if(videoEntry.getEditLink() != null) {
-		    System.out.println("Video is editable by current user.");
-		  }
-
-		  if(detailed) {
-
-		    YouTubeMediaGroup mediaGroup = videoEntry.getMediaGroup();
-
-		    System.out.println("Uploaded by: " + mediaGroup.getUploader());
-
-		    System.out.println("Video ID: " + mediaGroup.getVideoId());
-		    System.out.println("Description: " + 
-		      mediaGroup.getDescription().getPlainTextContent());
-
-		    MediaPlayer mediaPlayer = mediaGroup.getPlayer();
-		    System.out.println("Web Player URL: " + mediaPlayer.getUrl());
-		    MediaKeywords keywords = mediaGroup.getKeywords();
-		    System.out.print("Keywords: ");
-		    for(String keyword : keywords.getKeywords()) {
-		      System.out.print(keyword + ",");
-		    }
-
-		    GeoRssWhere location = videoEntry.getGeoCoordinates();
-		    if(location != null) {
-		      System.out.println("Latitude: " + location.getLatitude());
-		      System.out.println("Longitude: " + location.getLongitude());
-		    }
-
-		    Rating rating = videoEntry.getRating();
-		    if(rating != null) {
-		      System.out.println("Average rating: " + rating.getAverage());
-		    }
-
-		    YtStatistics stats = videoEntry.getStatistics();
-		    if(stats != null ) {
-		      System.out.println("View count: " + stats.getViewCount());
-		    }
-		    System.out.println();
-
-		    System.out.println("\tThumbnails:");
-		    for(MediaThumbnail mediaThumbnail : mediaGroup.getThumbnails()) {
-		      System.out.println("\t\tThumbnail URL: " + mediaThumbnail.getUrl());
-		      System.out.println("\t\tThumbnail Time Index: " +
-		      mediaThumbnail.getTime());
-		      System.out.println();
-		    }
-
-		    System.out.println("\tMedia:");
-		    for(YouTubeMediaContent mediaContent : mediaGroup.getYouTubeContents()) {
-		      System.out.println("\t\tMedia Location: "+ mediaContent.getUrl());
-		      System.out.println("\t\tMedia Type: "+ mediaContent.getType());
-		      System.out.println("\t\tDuration: " + mediaContent.getDuration());
-		      System.out.println();
-		    }
-
-		    for(YouTubeMediaRating mediaRating : mediaGroup.getYouTubeRatings()) {
-		      System.out.println("Video restricted in the following countries: " +
-		        mediaRating.getCountries().toString());
-		    }
-		  }
-		  
-		  return true;
+		if (videoEntry.isDraft()) {
+			System.out.println("Video is not live");
+			YtPublicationState pubState = videoEntry.getPublicationState();
+			if (pubState.getState() == YtPublicationState.State.PROCESSING) {
+				System.out.println("Video is still being processed.");
+				return false;
+			} else if (pubState.getState() == YtPublicationState.State.REJECTED) {
+				System.out.print("Video has been rejected because: ");
+				System.out.println(pubState.getDescription());
+				System.out.print("For help visit: ");
+				System.out.println(pubState.getHelpUrl());
+			} else if (pubState.getState() == YtPublicationState.State.FAILED) {
+				System.out.print("Video failed uploading because: ");
+				System.out.println(pubState.getDescription());
+				System.out.print("For help visit: ");
+				System.out.println(pubState.getHelpUrl());
+			}
 		}
 
+		if (videoEntry.getEditLink() != null) {
+			System.out.println("Video is editable by current user.");
+		}
+
+		if (detailed) {
+
+			YouTubeMediaGroup mediaGroup = videoEntry.getMediaGroup();
+
+			System.out.println("Uploaded by: " + mediaGroup.getUploader());
+
+			System.out.println("Video ID: " + mediaGroup.getVideoId());
+			System.out.println("Description: "
+					+ mediaGroup.getDescription().getPlainTextContent());
+
+			MediaPlayer mediaPlayer = mediaGroup.getPlayer();
+			System.out.println("Web Player URL: " + mediaPlayer.getUrl());
+			MediaKeywords keywords = mediaGroup.getKeywords();
+			System.out.print("Keywords: ");
+			for (String keyword : keywords.getKeywords()) {
+				System.out.print(keyword + ",");
+			}
+
+			GeoRssWhere location = videoEntry.getGeoCoordinates();
+			if (location != null) {
+				System.out.println("Latitude: " + location.getLatitude());
+				System.out.println("Longitude: " + location.getLongitude());
+			}
+
+			Rating rating = videoEntry.getRating();
+			if (rating != null) {
+				System.out.println("Average rating: " + rating.getAverage());
+			}
+
+			YtStatistics stats = videoEntry.getStatistics();
+			if (stats != null) {
+				System.out.println("View count: " + stats.getViewCount());
+			}
+			System.out.println();
+
+			System.out.println("\tThumbnails:");
+			for (MediaThumbnail mediaThumbnail : mediaGroup.getThumbnails()) {
+				System.out.println("\t\tThumbnail URL: "
+						+ mediaThumbnail.getUrl());
+				System.out.println("\t\tThumbnail Time Index: "
+						+ mediaThumbnail.getTime());
+				System.out.println();
+			}
+
+			System.out.println("\tMedia:");
+			for (YouTubeMediaContent mediaContent : mediaGroup
+					.getYouTubeContents()) {
+				System.out.println("\t\tMedia Location: "
+						+ mediaContent.getUrl());
+				System.out.println("\t\tMedia Type: " + mediaContent.getType());
+				System.out.println("\t\tDuration: "
+						+ mediaContent.getDuration());
+				System.out.println();
+			}
+
+			for (YouTubeMediaRating mediaRating : mediaGroup
+					.getYouTubeRatings()) {
+				System.out
+						.println("Video restricted in the following countries: "
+								+ mediaRating.getCountries().toString());
+			}
+		}
+
+		return true;
+	}
 
 	public void setupEventResponders() {
+
 		/**
-		 * {
- 		 *   eventType: 'video_uploaded',
-  		 *		payload: {
-   		 *			someshit: "need to figure out what we get back from youtube"
-   		 * },
-   	     *		origin: 'googleclient
+		 * sends a message when the video is uploaded
+		 * 
+		 * { eventType: 'video_uploaded', payload: { id: "id of the video"
+		 * token: "upload token" }, origin: 'googleclient }
+		 * 
+		 * { eventType: 'video_ready', payload: { token: 'upload token' url:
+		 * 'url where the video is stored' }, origin: 'googleclientsecretagent'
 		 * }
-		 *
-		 * {
-		 *   eventType: 'got_google_client_token',
-		 *   payload: {
-   		 * 	 		token: 'lkajsdlfkjsdlfkjds'
-		 * 		}, origin: 'googleclientsecretagent'
-		 * }
-		 * When the agent sees an event like:
-		 * 
-		 * {"eventType":"lookup","payload":{"word":"organic"}}
-		 * 
-		 * it will respond by triggering an event like:
-		 * 
-		 * {"eventType":"definition","payload":{"definition":"Of, relating to, or denoting compounds containing carbon
-		 *  (other than simple binary compounds and salts) and chiefly or ultimately of biological origin","word":"organic"}}
 		 */
 		listener.addResponder("video_uploaded", new EventResponder() {
 			public void respond(Event ev) {
-				
+
 				String fromJid = ev.getFrom();
 				String fromUsername = fromJid.split("/")[1];
-				System.out.println("video_uploaded from " + fromUsername );
-				
+				System.out.println("video_uploaded from " + fromUsername);
+
 				String origin = ev.getOrigin();
-				
+
 				String id = (String) ev.getPayloadAsMap().get("id");
 				String token = (String) ev.getPayloadAsMap().get("token");
 				try {
 					System.out.println("starting youtube service...");
-					YouTubeService service = new YouTubeService("GoogleClient", "AI39si5IM0aBn_mE7Wgj3brs9Zf-ttNoW1l2fse2xx71oYYOtzNxpK0NDrc7bZpjz8jTdh90HMRaGFwHemSeDd1tDZccwDEthA");
-					service.setUserCredentials("encoresignup@gmail.com", "enc0relab");
+					YouTubeService service = new YouTubeService(
+							"GoogleClient",
+							"AI39si5IM0aBn_mE7Wgj3brs9Zf-ttNoW1l2fse2xx71oYYOtzNxpK0NDrc7bZpjz8jTdh90HMRaGFwHemSeDd1tDZccwDEthA");
+					service.setUserCredentials("encoresignup@gmail.com",
+							"enc0relab");
 
-					String videoEntryUrl = "http://gdata.youtube.com/feeds/api/videos/" + id;
-					VideoEntry videoEntry = service.getEntry(new URL(videoEntryUrl), VideoEntry.class);
+					String videoEntryUrl = "http://gdata.youtube.com/feeds/api/videos/"
+							+ id;
+					VideoEntry videoEntry = service.getEntry(new URL(
+							videoEntryUrl), VideoEntry.class);
 					boolean isFound = printVideoEntry(videoEntry, true);
-					
-					while( printVideoEntry(videoEntry, true) == false ) {
+
+					while (printVideoEntry(videoEntry, true) == false) {
 						try {
 							Thread.sleep(5000);
-							System.out.println("checking you to see if it is finished...");
+							System.out
+									.println("checking you to see if it is finished...");
 						} catch (InterruptedException e) {
-							System.out.println("checking video killed"); 
+							System.out.println("checking video killed");
 							e.printStackTrace();
 						}
-					};
-					
-					
-					 Map<String,Object> map = new HashMap<String,Object>();
-					
-					 map.put("url", "http://youtube.com/"+id);
-					 map.put("token", token);
-					 
-					 Event responseEvent = new Event("video_ready", map, "googleclientsecretagent");
-					 responseEvent.toJson();
-					 xmpp.sendEvent(responseEvent);
-					 
-//					YouTubeQuery query = new YouTubeQuery(new URL("http://gdata.youtube.com/feeds/api/videos"));
-//					Query.CategoryFilter categoryFilter = new Query.CategoryFilter();
-//					categoryFilter.addCategory(new Category(YouTubeNamespace.DEVELOPER_TAG_SCHEME, "scihub"));
-//					      
-//					query.addCategoryFilter(categoryFilter);
-//
-//					VideoFeed videoFeed = service.query(query, VideoFeed.class);
-//					
-//					GoogleClientSecretAgent.printVideoFeed(videoFeed, true);
-					 
+					}
+					;
+
+					Map<String, Object> map = new HashMap<String, Object>();
+
+					map.put("url", "http://youtube.com/" + id);
+					map.put("token", token);
+
+					Event responseEvent = new Event("video_ready", map,
+							"googleclientsecretagent");
+					responseEvent.toJson();
+					xmpp.sendEvent(responseEvent);
+
 				} catch (AuthenticationException e) {
 					e.printStackTrace();
 				} catch (MalformedURLException e) {
@@ -278,105 +264,88 @@ public class GoogleClientSecretAgent extends Agent {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				
-				
-				
-
 			}
 		});
-		
+
 		/**
-		 * {
-		 *  eventType: 'video_upload_requested',
-		 *  payload: {}
-		 *  origin: 'mzukowski'
-		 * }
-		 *
-		 * {
-		 *   eventType: 'got_google_client_token',
-		 *   payload: {
-   		 * 	 		token: 'lkajsdlfkjsdlfkjds'
-		 * 		}, origin: 'googleclientsecretagent'
-		 * }
-		 * When the agent sees an event like:
 		 * 
-		 * {"eventType":"lookup","payload":{"word":"organic"}}
+		 * { eventType: 'video_upload_requested', payload: {} origin:
+		 * 'originator' }
 		 * 
-		 * it will respond by triggering an event like:
+		 * { eventType: 'got_google_client_token', payload: { token: 'the upload
+		 * token' }, origin: 'googleclientsecretagent' }
 		 * 
-		 * {"eventType":"definition","payload":{"definition":"Of, relating to, or denoting compounds containing carbon
-		 *  (other than simple binary compounds and salts) and chiefly or ultimately of biological origin","word":"organic"}}
 		 */
 		listener.addResponder("video_upload_requested", new EventResponder() {
 			public void respond(Event ev) {
-				
+
 				String fromJid = ev.getFrom();
 				String fromUsername = fromJid.split("/")[1];
-				System.out.println("video_upload_requested from " + fromUsername );
-				
+				System.out.println("video_upload_requested from "
+						+ fromUsername);
+
 				String origin = ev.getOrigin();
-				
-				
-				
+
 				try {
 					System.out.println("starting youtube service...");
-					YouTubeService service = new YouTubeService("GoogleClient", "AI39si5IM0aBn_mE7Wgj3brs9Zf-ttNoW1l2fse2xx71oYYOtzNxpK0NDrc7bZpjz8jTdh90HMRaGFwHemSeDd1tDZccwDEthA");
-					service.setUserCredentials("encoresignup@gmail.com", "enc0relab");
+					YouTubeService service = new YouTubeService(
+							"GoogleClient",
+							"AI39si5IM0aBn_mE7Wgj3brs9Zf-ttNoW1l2fse2xx71oYYOtzNxpK0NDrc7bZpjz8jTdh90HMRaGFwHemSeDd1tDZccwDEthA");
+					service.setUserCredentials("encoresignup@gmail.com",
+							"enc0relab");
 					VideoEntry newEntry = new VideoEntry();
 
 					YouTubeMediaGroup mg = newEntry.getOrCreateMediaGroup();
 					mg.setTitle(new MediaTitle());
 					mg.getTitle().setPlainTextContent("My Test Movie");
-					mg.addCategory(new MediaCategory(YouTubeNamespace.CATEGORY_SCHEME, "Autos"));
+					mg.addCategory(new MediaCategory(
+							YouTubeNamespace.CATEGORY_SCHEME, "Autos"));
 					mg.setKeywords(new MediaKeywords());
 					mg.getKeywords().addKeyword("cars");
 					mg.getKeywords().addKeyword("funny");
 					mg.setDescription(new MediaDescription());
 					mg.getDescription().setPlainTextContent("My description");
 					mg.setPrivate(false);
-					mg.addCategory(new MediaCategory(YouTubeNamespace.DEVELOPER_TAG_SCHEME, "scihub"));
-					mg.addCategory(new MediaCategory(YouTubeNamespace.DEVELOPER_TAG_SCHEME, "anotherdevtag"));
+					mg.addCategory(new MediaCategory(
+							YouTubeNamespace.DEVELOPER_TAG_SCHEME, "scihub"));
+					mg.addCategory(new MediaCategory(
+							YouTubeNamespace.DEVELOPER_TAG_SCHEME,
+							"anotherdevtag"));
 
-					//newEntry.setGeoCoordinates(new GeoRssWhere(37.0,-122.0));
-					// alternatively, one could specify just a descriptive string
+					// newEntry.setGeoCoordinates(new GeoRssWhere(37.0,-122.0));
+					// alternatively, one could specify just a descriptive
+					// string
 					// newEntry.setLocation("Mountain View, CA");
 
-					URL uploadUrl = new URL("http://gdata.youtube.com/action/GetUploadToken");
+					URL uploadUrl = new URL(
+							"http://gdata.youtube.com/action/GetUploadToken");
 					System.out.println("requesting token...");
-					FormUploadToken token = service.getFormUploadToken(uploadUrl, newEntry);
+					FormUploadToken token = service.getFormUploadToken(
+							uploadUrl, newEntry);
 					System.out.println("done...");
 					System.out.println(token.getUrl());
 					System.out.println(token.getToken());
-					
-					
-					 
-					 
-					 Map<String,Object> map = new HashMap<String,Object>();
-					 map.put("token", token.getToken());
-					 map.put("url", token.getUrl());
-					 
-					 Event responseEvent = new Event("got_google_client_token", map, "googleclientsecretagent");
-					 responseEvent.toJson();
-					 xmpp.sendEvent(responseEvent);
-					 
+
+					Map<String, Object> map = new HashMap<String, Object>();
+					map.put("token", token.getToken());
+					map.put("url", token.getUrl());
+
+					Event responseEvent = new Event("got_google_client_token",
+							map, "googleclientsecretagent");
+					responseEvent.toJson();
+					xmpp.sendEvent(responseEvent);
+
 				} catch (AuthenticationException e) {
 					e.printStackTrace();
 				} catch (MalformedURLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (ServiceException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
-				
-				
-
 			}
 		});
-	}	
-		
+	}
+
 }
