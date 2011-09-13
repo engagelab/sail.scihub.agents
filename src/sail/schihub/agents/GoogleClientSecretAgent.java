@@ -118,80 +118,82 @@ public class GoogleClientSecretAgent extends Agent {
 				System.out.println(pubState.getDescription());
 				System.out.print("For help visit: ");
 				System.out.println(pubState.getHelpUrl());
+				return true;
 			} else if (pubState.getState() == YtPublicationState.State.FAILED) {
 				System.out.print("Video failed uploading because: ");
 				System.out.println(pubState.getDescription());
 				System.out.print("For help visit: ");
 				System.out.println(pubState.getHelpUrl());
+				return true;
 			}
 		}
 
-		if (videoEntry.getEditLink() != null) {
-			System.out.println("Video is editable by current user.");
-		}
-
-		if (detailed) {
-
-			YouTubeMediaGroup mediaGroup = videoEntry.getMediaGroup();
-
-			System.out.println("Uploaded by: " + mediaGroup.getUploader());
-
-			System.out.println("Video ID: " + mediaGroup.getVideoId());
-			System.out.println("Description: "
-					+ mediaGroup.getDescription().getPlainTextContent());
-
-			MediaPlayer mediaPlayer = mediaGroup.getPlayer();
-			System.out.println("Web Player URL: " + mediaPlayer.getUrl());
-			MediaKeywords keywords = mediaGroup.getKeywords();
-			System.out.print("Keywords: ");
-			for (String keyword : keywords.getKeywords()) {
-				System.out.print(keyword + ",");
-			}
-
-			GeoRssWhere location = videoEntry.getGeoCoordinates();
-			if (location != null) {
-				System.out.println("Latitude: " + location.getLatitude());
-				System.out.println("Longitude: " + location.getLongitude());
-			}
-
-			Rating rating = videoEntry.getRating();
-			if (rating != null) {
-				System.out.println("Average rating: " + rating.getAverage());
-			}
-
-			YtStatistics stats = videoEntry.getStatistics();
-			if (stats != null) {
-				System.out.println("View count: " + stats.getViewCount());
-			}
-			System.out.println();
-
-			System.out.println("\tThumbnails:");
-			for (MediaThumbnail mediaThumbnail : mediaGroup.getThumbnails()) {
-				System.out.println("\t\tThumbnail URL: "
-						+ mediaThumbnail.getUrl());
-				System.out.println("\t\tThumbnail Time Index: "
-						+ mediaThumbnail.getTime());
-				System.out.println();
-			}
-
-			System.out.println("\tMedia:");
-			for (YouTubeMediaContent mediaContent : mediaGroup
-					.getYouTubeContents()) {
-				System.out.println("\t\tMedia Location: "
-						+ mediaContent.getUrl());
-				System.out.println("\t\tMedia Type: " + mediaContent.getType());
-				System.out.println("\t\tDuration: "
-						+ mediaContent.getDuration());
-				System.out.println();
-			}
-
-			for (YouTubeMediaRating mediaRating : mediaGroup
-					.getYouTubeRatings()) {
-				System.out
-						.println("Video restricted in the following countries: "
-								+ mediaRating.getCountries().toString());
-			}
-		}
+//		if (videoEntry.getEditLink() != null) {
+//			System.out.println("Video is editable by current user.");
+//		}
+//
+//		if (detailed) {
+//
+//			YouTubeMediaGroup mediaGroup = videoEntry.getMediaGroup();
+//
+//			System.out.println("Uploaded by: " + mediaGroup.getUploader());
+//
+//			System.out.println("Video ID: " + mediaGroup.getVideoId());
+//			System.out.println("Description: "
+//					+ mediaGroup.getDescription().getPlainTextContent());
+//
+//			MediaPlayer mediaPlayer = mediaGroup.getPlayer();
+//			System.out.println("Web Player URL: " + mediaPlayer.getUrl());
+//			MediaKeywords keywords = mediaGroup.getKeywords();
+//			System.out.print("Keywords: ");
+//			for (String keyword : keywords.getKeywords()) {
+//				System.out.print(keyword + ",");
+//			}
+//
+//			GeoRssWhere location = videoEntry.getGeoCoordinates();
+//			if (location != null) {
+//				System.out.println("Latitude: " + location.getLatitude());
+//				System.out.println("Longitude: " + location.getLongitude());
+//			}
+//
+//			Rating rating = videoEntry.getRating();
+//			if (rating != null) {
+//				System.out.println("Average rating: " + rating.getAverage());
+//			}
+//
+//			YtStatistics stats = videoEntry.getStatistics();
+//			if (stats != null) {
+//				System.out.println("View count: " + stats.getViewCount());
+//			}
+//			System.out.println();
+//
+//			System.out.println("\tThumbnails:");
+//			for (MediaThumbnail mediaThumbnail : mediaGroup.getThumbnails()) {
+//				System.out.println("\t\tThumbnail URL: "
+//						+ mediaThumbnail.getUrl());
+//				System.out.println("\t\tThumbnail Time Index: "
+//						+ mediaThumbnail.getTime());
+//				System.out.println();
+//			}
+//
+//			System.out.println("\tMedia:");
+//			for (YouTubeMediaContent mediaContent : mediaGroup
+//					.getYouTubeContents()) {
+//				System.out.println("\t\tMedia Location: "
+//						+ mediaContent.getUrl());
+//				System.out.println("\t\tMedia Type: " + mediaContent.getType());
+//				System.out.println("\t\tDuration: "
+//						+ mediaContent.getDuration());
+//				System.out.println();
+//			}
+//
+//			for (YouTubeMediaRating mediaRating : mediaGroup
+//					.getYouTubeRatings()) {
+//				System.out
+//						.println("Video restricted in the following countries: "
+//								+ mediaRating.getCountries().toString());
+//			}
+//		}
 
 		return true;
 	}
@@ -233,11 +235,17 @@ public class GoogleClientSecretAgent extends Agent {
 							videoEntryUrl), VideoEntry.class);
 					boolean isFound = printVideoEntry(videoEntry, true);
 
-					while (printVideoEntry(videoEntry, true) == false) {
+					System.out.println("links: " + videoEntry.getLinks());
+					System.out.println("html link " + videoEntry.getHtmlLink());
+					while (isFound == false) {
 						try {
-							Thread.sleep(5000);
+							Thread.sleep(3000);
 							System.out
 									.println("checking you to see if it is finished...");
+							
+							videoEntry = service.getEntry(new URL(
+									videoEntryUrl), VideoEntry.class);
+							isFound = printVideoEntry(videoEntry, true);
 						} catch (InterruptedException e) {
 							System.out.println("checking video killed");
 							e.printStackTrace();
@@ -247,7 +255,9 @@ public class GoogleClientSecretAgent extends Agent {
 
 					Map<String, Object> map = new HashMap<String, Object>();
 
-					map.put("url", "http://youtube.com/" + id);
+					String url = "http://youtube.com/v/" + id;
+					System.out.println("url: " + url);
+					map.put("url",url );
 					map.put("token", token);
 
 					Event responseEvent = new Event("video_ready", map,
