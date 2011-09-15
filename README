@@ -1,2 +1,5 @@
 
 load in eclipse and gooooo.
+
+puts compiles the project and all the dependencies in one project. 
+mvn assembly:single
