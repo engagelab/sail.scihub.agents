@@ -3,8 +3,6 @@ package sail.schihub.agents;
 import hirondelle.date4j.DateTime;
 
 import java.net.UnknownHostException;
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.Set;
 import java.util.TimeZone;
 

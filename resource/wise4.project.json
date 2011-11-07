@@ -1,0 +1,60 @@
+{
+   "autoStep": true,
+   "stepLevelNum": false,
+   "stepTerm": "Step",
+   "title": "scihub",
+   "constraints": [],
+   "nodes": [
+      {
+         "type": "HtmlNode",
+         "identifier": "node_0.ht",
+         "title": "take photo",
+         "hints": [],
+         "ref": "node_0.ht",
+         "previousWorkNodeIds": [],
+         "links": [],
+         "class": "intro"
+      },
+      {
+         "type": "HtmlNode",
+         "identifier": "node_1.ht",
+         "title": "take video",
+         "hints": [],
+         "ref": "node_1.ht",
+         "previousWorkNodeIds": [],
+         "links": [],
+         "class": "intro"
+      }
+   ],
+   "sequences": [
+      {
+         "type": "sequence",
+         "identifier": "master",
+         "title": "Master",
+         "view": "normal",
+         "refs": [
+            "seq_1",
+            "seq_2"
+         ]
+      },
+      {
+         "type": "sequence",
+         "identifier": "seq_2",
+         "title": "location 2 activity",
+         "view": "normal",
+         "refs": [
+            "node_0.ht"
+         ]
+      },
+      {
+         "type": "sequence",
+         "identifier": "seq_1",
+         "title": "location 1 activity",
+         "view": "normal",
+         "refs": [
+            "node_1.ht"
+         ]
+      }
+   ],
+   "startPoint": "master"
+}

@@ -11,27 +11,17 @@ import org.encorelab.sail.EventResponder;
 import org.encorelab.sail.agent.Agent;
 import org.jivesoftware.smack.XMPPException;
 
-import com.google.gdata.client.Query;
-import com.google.gdata.client.youtube.YouTubeQuery;
 import com.google.gdata.client.youtube.YouTubeService;
-import com.google.gdata.data.Category;
-import com.google.gdata.data.extensions.Rating;
-import com.google.gdata.data.geo.impl.GeoRssWhere;
 import com.google.gdata.data.media.mediarss.MediaCategory;
 import com.google.gdata.data.media.mediarss.MediaDescription;
 import com.google.gdata.data.media.mediarss.MediaKeywords;
-import com.google.gdata.data.media.mediarss.MediaPlayer;
-import com.google.gdata.data.media.mediarss.MediaThumbnail;
 import com.google.gdata.data.media.mediarss.MediaTitle;
 import com.google.gdata.data.youtube.FormUploadToken;
 import com.google.gdata.data.youtube.VideoEntry;
 import com.google.gdata.data.youtube.VideoFeed;
-import com.google.gdata.data.youtube.YouTubeMediaContent;
 import com.google.gdata.data.youtube.YouTubeMediaGroup;
-import com.google.gdata.data.youtube.YouTubeMediaRating;
 import com.google.gdata.data.youtube.YouTubeNamespace;
 import com.google.gdata.data.youtube.YtPublicationState;
-import com.google.gdata.data.youtube.YtStatistics;
 import com.google.gdata.util.AuthenticationException;
 import com.google.gdata.util.ServiceException;
 
@@ -261,7 +251,8 @@ public class GoogleClientSecretAgent extends Agent {
 					map.put("token", token);
 
 					Event responseEvent = new Event("video_ready", map,
-							"googleclientsecretagent");
+							null);
+					responseEvent.setOrigin("googleclientsecretagent");
 					responseEvent.toJson();
 					xmpp.sendEvent(responseEvent);
 
@@ -341,7 +332,8 @@ public class GoogleClientSecretAgent extends Agent {
 					map.put("url", token.getUrl());
 
 					Event responseEvent = new Event("got_google_client_token",
-							map, "googleclientsecretagent");
+							map);
+					responseEvent.setOrigin("googleclientsecretagent");
 					responseEvent.toJson();
 					xmpp.sendEvent(responseEvent);
 
