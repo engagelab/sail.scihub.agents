@@ -1,4 +1,4 @@
-package sail.schihub.agents;
+package sail.scihub.agents;
 
 import hirondelle.date4j.DateTime;
 

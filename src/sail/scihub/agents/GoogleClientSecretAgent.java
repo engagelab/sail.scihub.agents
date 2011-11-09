@@ -1,4 +1,4 @@
-package sail.schihub.agents;
+package sail.scihub.agents;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -10,6 +10,8 @@ import org.encorelab.sail.Event;
 import org.encorelab.sail.EventResponder;
 import org.encorelab.sail.agent.Agent;
 import org.jivesoftware.smack.XMPPException;
+
+import util.RandomString;
 
 import com.google.gdata.client.youtube.YouTubeService;
 import com.google.gdata.data.media.mediarss.MediaCategory;
@@ -79,9 +81,6 @@ public class GoogleClientSecretAgent extends Agent {
 
 	protected YouTubeService service;
 
-	public GoogleClientSecretAgent() {
-
-	}
 
 	public void setupYoutubeService() {
 
@@ -190,6 +189,39 @@ public class GoogleClientSecretAgent extends Agent {
 
 	public void setupEventResponders() {
 
+		
+		/**
+		 * 
+		 * { eventType: 'video_upload_requested_mobile', payload: {} origin: 'obama' }
+		 * 
+		 * { eventType: 'got_client_token', payload: { token: 'the upload token' }, origin: 'googleclientsecretagent' }
+		 * 
+		 */
+		listener.addResponder("video_upload_requested_mobile", new EventResponder() {
+			public void respond(Event ev) {
+
+				String fromJid = ev.getFrom();
+				String fromUsername = fromJid.split("/")[1];
+				System.out.println("video_upload_requested from "
+						+ fromUsername);
+
+				String origin = ev.getOrigin();
+
+					
+						RandomString randomString = new RandomString(5);
+						String newToken = randomString.nextString();
+
+						Map<String, Object> map = new HashMap<String, Object>();
+						map.put("token", newToken);
+
+						Event responseEvent = new Event("got_client_token", map);
+						responseEvent.setOrigin("googleclientsecretagent");
+						responseEvent.toJson();
+						xmpp.sendEvent(responseEvent);
+
+			}
+		});
+		
 		/**
 		 * sends a message when the video is uploaded
 		 * 
@@ -267,11 +299,10 @@ public class GoogleClientSecretAgent extends Agent {
 				}
 			}
 		});
-
+		
 		/**
 		 * 
-		 * { eventType: 'video_upload_requested', payload: {} origin:
-		 * 'originator' }
+		 * { eventType: 'video_upload_requested', payload: {} origin: 'originator' }
 		 * 
 		 * { eventType: 'got_google_client_token', payload: { token: 'the upload
 		 * token' }, origin: 'googleclientsecretagent' }
